@@ -21,8 +21,6 @@ Node.js で動作する Discord 向けの多機能 AI ボットです。
 
 記事やドキュメントの URL を渡すと、Dify の要約用 API を呼び出し、ページ内容の要約を返します。
 
-> ※ 実際のトリガー（コマンド名やメッセージ形式）は、コードの実装に合わせて適宜書き換えてください。
-
 ---
 
 ## 必要なもの
@@ -55,16 +53,16 @@ DIFY_CALENDAR_API_KEY=
 
 各項目の意味：
 
-- `DISCORD_BOT_TOKEN`  
+- `DISCORD_BOT_TOKEN`
   - Discord Developer Portal で作成した Bot のトークン。
-- `OPENAI_API_KEY`  
+- `OPENAI_API_KEY`
   - 通常会話に使用する OpenAI の API キー。
-- `DIFY_WORKFLOW_URL`  
+- `DIFY_WORKFLOW_URL`
   - イベント情報抽出やカレンダー連携などに使う Dify ワークフローのエンドポイント URL。
-- `DIFY_PAGE_SUMMARY_API_KEY`  
+- `DIFY_PAGE_SUMMARY_API_KEY`
   - Web ページ要約用に使用する Dify プロジェクトの API キー。
-- `DIFY_CALENDAR_API_KEY`  
-  - カレンダー登録に使用する Dify プロジェクトの API キー（ワークフローを分けている場合など）。
+- `DIFY_CALENDAR_API_KEY`
+  - カレンダー登録に使用する Dify プロジェクトの API キー。
 
 > ※ 公開リポジトリに `.env` を絶対に含めないでください。
 
@@ -82,7 +80,7 @@ DIFY_CALENDAR_API_KEY=
 
 1. Discord Developer Portal を開く  
    https://discord.com/developers/applications
-2. 「New Application」からアプリケーションを作成  
+2. 「New Application」からアプリケーションを作成
    - 名前は任意（例：`ai-utility-bot`）。
 3. 左メニューの「Bot」→「Add Bot」をクリックして Bot を作成。
 4. 「Reset Token」から Token をコピーし、`.env` の `DISCORD_BOT_TOKEN` に設定。
@@ -142,12 +140,9 @@ DIFY_CALENDAR_API_KEY=
 
 ## 使い方（ユーザー視点のざっくりしたイメージ）
 
-> ※ 実際のコマンド名・トリガー文言はコードに合わせて書き換えてください。
-
 ### 通常の会話
 
-- ボットが参加しているテキストチャンネルでメンションを付けて話しかける
-- もしくは特定のプレフィックス（例：`!ask`）でメッセージを送ると、AI が返答します。
+- ボットが参加しているテキストチャンネルでメンションを付けて話しかけると、AI が返答します。
 
 ### URL → イベント情報 → カレンダー登録
 
@@ -164,4 +159,3 @@ DIFY_CALENDAR_API_KEY=
 - 各種 API キーは絶対に公開しないでください。
 - 無料枠の制限（OpenAI / Dify / Railway など）を超えると料金が発生する可能性があります。
 - 大規模サーバでの運用や商用利用を行う場合は、各サービスの利用規約と料金を必ず確認してください。
-
