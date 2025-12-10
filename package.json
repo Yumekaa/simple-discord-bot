@@ -6,11 +6,17 @@
   "scripts": {
     "start": "node bot.mjs"
   },
-  "engines": {
-    "node": "20.x"
-  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
   "dependencies": {
-    "discord.js": "^14.16.3",
-    "dotenv": "^16.4.5"
+    "@ai-sdk/mcp": "^0.0.11",
+    "@modelcontextprotocol/sdk": "^1.24.3",
+    "ai": "^5.0.108",
+    "discord.js": "^14.24.0",
+    "dotenv": "^17.2.3",
+    "node-fetch": "^3.3.2",
+    "openai": "^6.10.0"
   }
 }

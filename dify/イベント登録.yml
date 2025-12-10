@@ -1,0 +1,696 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FEF7C3'
+  mode: workflow
+  name: イベント登録
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/google_calendar:0.1.0@5b328d5a2a5ce71404bcff598304920d02fe43a87ede54f30ebe0230ab31bc23
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openai:0.2.7@9031bbf9b37d9f6341a20c78a8bd18d686afd3ff627545496c3557705419d084
+    version: null
+kind: app
+version: 0.5.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: tool
+      id: 1765289098165-source-1765291265458-target
+      source: '1765289098165'
+      sourceHandle: source
+      target: '1765291265458'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: llm
+      id: 1765291265458-source-1765291287728-target
+      source: '1765291265458'
+      sourceHandle: source
+      target: '1765291287728'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: tool
+      id: 1765291287728-source-1765326750231-target
+      source: '1765291287728'
+      sourceHandle: source
+      target: '1765326750231'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: end
+      id: 1765326750231-source-1765326529630-target
+      source: '1765326750231'
+      sourceHandle: source
+      target: '1765326529630'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: true
+        title: ユーザー入力
+        type: start
+        variables:
+        - default: ''
+          hint: ''
+          label: url
+          max_length: 2048
+          options: []
+          placeholder: ''
+          required: true
+          type: paragraph
+          variable: url
+      height: 109
+      id: '1765289098165'
+      position:
+        x: 68
+        y: 287
+      positionAbsolute:
+        x: 68
+        y: 287
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: ''
+          form: llm
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: url
+            ja_JP: url
+            pt_BR: url
+            zh_Hans: url
+          llm_description: ''
+          max: null
+          min: null
+          name: url
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        params:
+          url: ''
+        plugin_id: null
+        plugin_unique_identifier: null
+        provider_icon:
+          background: '#FCE7F6'
+          content: 🔪
+        provider_id: 56f63fc0-6094-4018-bf6e-e4f3ca0a9173
+        provider_name: HTML整形
+        provider_type: workflow
+        selected: false
+        title: HTML整形
+        tool_configurations: {}
+        tool_description: "Fetches a webpage from a given URL and converts the HTML\
+          \ into clean, readable plain text.  \nUseful for summarization, information\
+          \ extraction, or preparing web content for LLM processing.\n"
+        tool_label: HTML整形
+        tool_name: WebPageTextExtractor
+        tool_node_version: '2'
+        tool_parameters:
+          url:
+            type: mixed
+            value: '{{#1765289098165.url#}}'
+        type: tool
+      height: 52
+      id: '1765291265458'
+      position:
+        x: 381
+        y: 308
+      positionAbsolute:
+        x: 381
+        y: 308
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1765291265458'
+          - text
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-4o
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: 4e8819be-b9ee-4fd2-8dd2-74e288e975fb
+          role: system
+          text: "You are an assistant that extracts event information from text and\
+            \ converts it into JSON for creating a Google Calendar event.\n\n- The\
+            \ input will be the full text of a web page that may contain event information\
+            \ (date, time, location, description, etc.).\n- Your job is to detect\
+            \ ONE main event in the text and output its details.\n- If no event is\
+            \ found, output `null`.\n\nOutput format:\n- Return ONLY a single JSON\
+            \ object in the following format, with no additional text.\n\n{\n  \"\
+            title\": string,             // short event title in Japanese\n  \"start_time\"\
+            : string,        // ISO 8601 datetime, e.g. \"2025-01-10T19:00:00+09:00\"\
+            \n  \"end_time\": string,          // ISO 8601 datetime\n  \"all_day\"\
+            : boolean,          // true if it is an all-day event\n  \"description\"\
+            : string,       // longer description or notes\n  \"location\": string,\
+            \          // venue name or address\n}\n\nRules:\n- If the time zone is\
+            \ not explicitly written, assume Asia/Tokyo (+09:00).\n- If only a date\
+            \ is given (no time), treat it as an all-day event and set:\n  - \"all_day\"\
+            : true\n  - \"start_time\": \"YYYY-MM-DDT00:00:00+09:00\"\n  - \"end_time\"\
+            :   \"YYYY-MM-DDT23:59:59+09:00\"\n- If the end time is not given, set\
+            \ it to 1 hour after the start time.\n- If some information is missing\
+            \ (e.g. no location), use an empty string \"\" for that field.\n- Do NOT\
+            \ include any explanation, comments, or extra fields. Output only the\
+            \ JSON.\n"
+        - id: e80cc142-b390-4335-8a46-03950e94d5f8
+          role: user
+          text: '# Web Page
+
+            {{#1765291265458.text#}}'
+        selected: false
+        structured_output:
+          schema:
+            additionalProperties: false
+            properties:
+              all_day:
+                description: イベントが終日の場合はtrue、そうでない場合はfalse
+                type: string
+              description:
+                description: イベントの説明
+                type: string
+              end_time:
+                description: イベント終了時間
+                type: string
+              location:
+                description: イベントの開催場所
+                type: string
+              start_time:
+                description: イベント開始時間
+                type: string
+              title:
+                description: イベントのタイトル
+                type: string
+            required:
+            - title
+            - start_time
+            - end_time
+            - all_day
+            type: object
+        structured_output_enabled: true
+        title: LLM
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1765291287728'
+      position:
+        x: 690.4801579357454
+        y: 308
+      positionAbsolute:
+        x: 690.4801579357454
+        y: 308
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        outputs:
+        - value_selector:
+          - '1765326750231'
+          - text
+          value_type: string
+          variable: success
+        selected: false
+        title: 出力
+        type: end
+      height: 88
+      id: '1765326529630'
+      position:
+        x: 1369.366280042954
+        y: 308
+      positionAbsolute:
+        x: 1369.366280042954
+        y: 308
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: The title/summary of the event
+            ja_JP: イベントのタイトル/概要
+            pt_BR: The title/summary of the event
+            zh_Hans: 事件的标题/摘要
+          label:
+            en_US: Event Title
+            ja_JP: イベントタイトル
+            pt_BR: Event Title
+            zh_Hans: 事件标题
+          llm_description: The title or summary of the calendar event (required)
+          max: null
+          min: null
+          name: title
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Event start time (ISO format, e.g., 2024-01-01T10:00:00Z or 2024-01-01
+              10:00)
+            ja_JP: イベント開始時間（ISO形式、例：2024-01-01T10:00:00Z または 2024-01-01 10:00）
+            pt_BR: Event start time (ISO format, e.g., 2024-01-01T10:00:00Z or 2024-01-01
+              10:00)
+            zh_Hans: 事件开始时间（ISO格式，如：2024-01-01T10:00:00Z 或 2024-01-01 10:00）
+          label:
+            en_US: Start Time
+            ja_JP: 開始時間
+            pt_BR: Start Time
+            zh_Hans: 开始时间
+          llm_description: Event start time in ISO format (e.g., 2024-01-01T10:00:00Z)
+            (required)
+          max: null
+          min: null
+          name: start_time
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Event end time (ISO format). If not provided, defaults to 1 hour
+              after start time
+            ja_JP: イベント終了時間（ISO形式）。提供されない場合、開始時間の1時間後がデフォルト
+            pt_BR: Event end time (ISO format). If not provided, defaults to 1 hour
+              after start time
+            zh_Hans: 事件结束时间（ISO格式）。如未提供，默认为开始时间后1小时
+          label:
+            en_US: End Time
+            ja_JP: 終了時間
+            pt_BR: End Time
+            zh_Hans: 结束时间
+          llm_description: Event end time in ISO format. Defaults to 1 hour after
+            start time if not specified
+          max: null
+          min: null
+          name: end_time
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: primary
+          form: llm
+          human_description:
+            en_US: The calendar ID to create the event in (use 'primary' for main
+              calendar)
+            ja_JP: イベントを作成するカレンダーID（メインカレンダーは'primary'を使用）
+            pt_BR: The calendar ID to create the event in (use 'primary' for main
+              calendar)
+            zh_Hans: 要创建事件的日历ID（使用'primary'表示主日历）
+          label:
+            en_US: Calendar ID
+            ja_JP: カレンダーID
+            pt_BR: Calendar ID
+            zh_Hans: 日历ID
+          llm_description: Target calendar identifier or 'primary' for the user's
+            primary calendar
+          max: null
+          min: null
+          name: calendar_id
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: false
+          form: llm
+          human_description:
+            en_US: Whether this is an all-day event
+            ja_JP: これが終日イベントかどうか
+            pt_BR: Whether this is an all-day event
+            zh_Hans: 是否为全天事件
+          label:
+            en_US: All Day Event
+            ja_JP: 終日イベント
+            pt_BR: All Day Event
+            zh_Hans: 全天事件
+          llm_description: Create as an all-day event (true/false)
+          max: null
+          min: null
+          name: all_day
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: boolean
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Detailed description of the event
+            ja_JP: イベントの詳細説明
+            pt_BR: Detailed description of the event
+            zh_Hans: 事件的详细描述
+          label:
+            en_US: Description
+            ja_JP: 説明
+            pt_BR: Description
+            zh_Hans: 描述
+          llm_description: Detailed description or notes for the event
+          max: null
+          min: null
+          name: description
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Event location (address, meeting room, etc.)
+            ja_JP: イベントの場所（住所、会議室など）
+            pt_BR: Event location (address, meeting room, etc.)
+            zh_Hans: 事件地点（地址、会议室等）
+          label:
+            en_US: Location
+            ja_JP: 場所
+            pt_BR: Location
+            zh_Hans: 地点
+          llm_description: Event location such as address, meeting room, or venue
+          max: null
+          min: null
+          name: location
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: List of attendee email addresses
+            ja_JP: 出席者のメールアドレスリスト
+            pt_BR: List of attendee email addresses
+            zh_Hans: 参加者邮箱地址列表
+          label:
+            en_US: Attendees
+            ja_JP: 出席者
+            pt_BR: Attendees
+            zh_Hans: 参加者
+          llm_description: Array of attendee email addresses to invite to the event
+          max: null
+          min: null
+          name: attendees
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: array
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Time zone for the event (e.g., America/New_York, Asia/Tokyo)
+            ja_JP: イベントのタイムゾーン（例：America/New_York、Asia/Tokyo）
+            pt_BR: Time zone for the event (e.g., America/New_York, Asia/Tokyo)
+            zh_Hans: 事件的时区（如：America/New_York、Asia/Tokyo）
+          label:
+            en_US: Time Zone
+            ja_JP: タイムゾーン
+            pt_BR: Time Zone
+            zh_Hans: 时区
+          llm_description: IANA time zone identifier (e.g., America/New_York, UTC)
+          max: null
+          min: null
+          name: time_zone
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: default
+          form: llm
+          human_description:
+            en_US: Event visibility setting
+            ja_JP: イベントの可視性設定
+            pt_BR: Event visibility setting
+            zh_Hans: 事件可见性设置
+          label:
+            en_US: Visibility
+            ja_JP: 可視性
+            pt_BR: Visibility
+            zh_Hans: 可见性
+          llm_description: Event visibility level (default, public, private)
+          max: null
+          min: null
+          name: visibility
+          options:
+          - icon: ''
+            label:
+              en_US: Default
+              ja_JP: デフォルト
+              pt_BR: Default
+              zh_Hans: 默认
+            value: default
+          - icon: ''
+            label:
+              en_US: Public
+              ja_JP: 公開
+              pt_BR: Public
+              zh_Hans: 公开
+            value: public
+          - icon: ''
+            label:
+              en_US: Private
+              ja_JP: プライベート
+              pt_BR: Private
+              zh_Hans: 私有
+            value: private
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: true
+          form: llm
+          human_description:
+            en_US: Whether to send email notifications to attendees
+            ja_JP: 出席者にメール通知を送信するかどうか
+            pt_BR: Whether to send email notifications to attendees
+            zh_Hans: 是否向参加者发送邮件通知
+          label:
+            en_US: Send Notifications
+            ja_JP: 通知を送信
+            pt_BR: Send Notifications
+            zh_Hans: 发送通知
+          llm_description: Send email notifications to attendees (true/false)
+          max: null
+          min: null
+          name: send_notifications
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: boolean
+        params:
+          all_day: ''
+          attendees: ''
+          calendar_id: ''
+          description: ''
+          end_time: ''
+          location: ''
+          send_notifications: ''
+          start_time: ''
+          time_zone: ''
+          title: ''
+          visibility: ''
+        plugin_id: langgenius/google_calendar
+        plugin_unique_identifier: langgenius/google_calendar:0.1.0@5b328d5a2a5ce71404bcff598304920d02fe43a87ede54f30ebe0230ab31bc23
+        provider_icon: https://cloud.dify.ai/console/api/workspaces/current/plugin/icon?tenant_id=22c811e9-df17-4ec7-a3ad-0f56e99b3364&filename=c03fc62ca1b7d88335a2ae30bc815b87f67cf048fa6e92713b2513a0ca04a4c2.png
+        provider_id: langgenius/google_calendar/google_calendar
+        provider_name: langgenius/google_calendar/google_calendar
+        provider_type: builtin
+        selected: false
+        title: イベントを作成
+        tool_configurations: {}
+        tool_description: Googleカレンダーに新しいイベントを作成
+        tool_label: イベントを作成
+        tool_name: create_event
+        tool_node_version: '2'
+        tool_parameters:
+          all_day:
+            type: constant
+            value: false
+          attendees:
+            type: constant
+            value: null
+          calendar_id:
+            type: mixed
+            value: primary
+          description:
+            type: mixed
+            value: '{{#1765291287728.structured_output.description#}}'
+          end_time:
+            type: mixed
+            value: '{{#1765291287728.structured_output.end_time#}}'
+          location:
+            type: mixed
+            value: '{{#1765291287728.structured_output.location#}}'
+          send_notifications:
+            type: constant
+            value: true
+          start_time:
+            type: mixed
+            value: '{{#1765291287728.structured_output.start_time#}}'
+          time_zone:
+            type: mixed
+            value: Asia/Tokyo
+          title:
+            type: mixed
+            value: '{{#1765291287728.structured_output.title#}}'
+          visibility:
+            type: constant
+            value: default
+        type: tool
+      height: 52
+      id: '1765326750231'
+      position:
+        x: 1029.6624645028444
+        y: 308
+      positionAbsolute:
+        x: 1029.6624645028444
+        y: 308
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: 227.31098212536085
+      y: 120.89475744169783
+      zoom: 0.629960542714989
+  rag_pipeline_variables: []

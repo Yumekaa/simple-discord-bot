@@ -1,0 +1,259 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#ECE9FE'
+  mode: workflow
+  name: Webページ要約
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openai:0.2.7@9031bbf9b37d9f6341a20c78a8bd18d686afd3ff627545496c3557705419d084
+    version: null
+kind: app
+version: 0.5.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: tool
+      id: 1765290927739-source-1765290935899-target
+      source: '1765290927739'
+      sourceHandle: source
+      target: '1765290935899'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: llm
+      id: 1765290935899-source-1765290945387-target
+      source: '1765290935899'
+      sourceHandle: source
+      target: '1765290945387'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: 1765290945387-source-1765291098705-target
+      source: '1765290945387'
+      sourceHandle: source
+      target: '1765291098705'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: true
+        title: ユーザー入力
+        type: start
+        variables:
+        - default: ''
+          hint: ''
+          label: url
+          max_length: 2048
+          options: []
+          placeholder: ''
+          required: true
+          type: paragraph
+          variable: url
+      height: 109
+      id: '1765290927739'
+      position:
+        x: 79
+        y: 282
+      positionAbsolute:
+        x: 79
+        y: 282
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: ''
+          form: llm
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: url
+            ja_JP: url
+            pt_BR: url
+            zh_Hans: url
+          llm_description: ''
+          max: null
+          min: null
+          name: url
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        params:
+          url: ''
+        plugin_id: null
+        plugin_unique_identifier: null
+        provider_icon:
+          background: '#FCE7F6'
+          content: 🔪
+        provider_id: 56f63fc0-6094-4018-bf6e-e4f3ca0a9173
+        provider_name: HTML整形
+        provider_type: workflow
+        selected: false
+        title: HTML整形
+        tool_configurations: {}
+        tool_description: URLを指定しリクエスト、Webページからテキストを抜き出し返します
+        tool_label: HTML整形
+        tool_name: WebPageTextExtractor
+        tool_node_version: '2'
+        tool_parameters:
+          url:
+            type: mixed
+            value: '{{#1765290927739.url#}}'
+        type: tool
+      height: 52
+      id: '1765290935899'
+      position:
+        x: 381
+        y: 303
+      positionAbsolute:
+        x: 381
+        y: 303
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1765290935899'
+          - text
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-4
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: 3fd6293d-9e17-42bb-b0fc-809b28741d7f
+          role: system
+          text: '以下はユーザが興味のあるWebページから抜き出したテキストです。
+
+            どんな内容が書いてあるか、ユーザの学習に役立てられるように要約したテキストを作成してください。作成したテキストのみを返してください。'
+        - id: 9053b605-abd5-4b66-ad1f-83b148218f90
+          role: user
+          text: '# テキスト
+
+            {{#1765290935899.text#}}'
+        selected: false
+        title: 内容要約
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1765290945387'
+      position:
+        x: 670
+        y: 303
+      positionAbsolute:
+        x: 670
+        y: 303
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        outputs:
+        - value_selector:
+          - '1765290945387'
+          - text
+          value_type: string
+          variable: text
+        selected: false
+        title: 出力
+        type: end
+      height: 88
+      id: '1765291098705'
+      position:
+        x: 960
+        y: 303
+      positionAbsolute:
+        x: 960
+        y: 303
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: 133.51805335927122
+      y: 153.2633501482619
+      zoom: 0.7937005371769563
+  rag_pipeline_variables: []
